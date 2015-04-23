@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntroCS;
+using Sophmores_FinalProj.Utilities;
 
 namespace Sophmores_FinalProj
 {
@@ -31,7 +32,8 @@ namespace Sophmores_FinalProj
                 enemyAttack(player, enemy);
                 if (!(player.isAlive()))
                 {
-                    Console.WriteLine(player.Name + "has blacked out...");
+					TextUtil.PrintTextFile ("Death.txt");
+					Console.WriteLine("\n\n            " + player.Name + " has blacked out...");
                     starLine();
                     break;
                 }

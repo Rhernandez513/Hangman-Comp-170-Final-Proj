@@ -70,6 +70,7 @@
     <None Include="gamelogo.txt" />
     <None Include="gamelogo2.txt" />
     <None Include="note.txt" />
+    <None Include="Death.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sophmores_FinalProj\Sophmores_FinalProj.csproj">
