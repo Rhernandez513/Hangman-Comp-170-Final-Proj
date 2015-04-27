@@ -59,7 +59,7 @@ namespace Sophmores_FinalProj
 			Console.WriteLine ("Well lets not take too long, lets start finding keys!\n");
 			bool responseIsGood = false;
 			while (!(responseIsGood)) {
-				response = getChoice (4,"Which door would you like to enter? \n 1) Door 1 \n 2) Door 2 \n 3) Door 3 \n 4) Open Inventory \n");
+				response = getChoice (4,"Which door would you like to enter? \n 1) Door 1 \n 2) Door 2 \n 3) Door 3 \n 4) Open Inventory \n 5) Large Door");
 				if (p1.currentStage == 0 &&     //Stage 1 starts here
 					response != 4) {
 					if (OpenedDoors(response, p1) == true) {
@@ -144,7 +144,7 @@ namespace Sophmores_FinalProj
 					}
 
 				} else if (p1.currentStage == 3 &&
-					response != 4)
+						response != 4)
 				{
 					responseIsGood = true;
 					continue;
