@@ -24,6 +24,57 @@ namespace Sophmores_FinalProj
       Combat.StartCombat(player, boss);
       GainEnemyItems(player, boss);
     }
+	
+	private static void DoorStage2(Player player, Enemy enemy1, Enemy enemy2, Enemy boss)
+	{
+			string noteDescription = TextUtil.ReturnTextFile("stage2note.txt");
+			Item note = new Item("StarNote", "Paper", noteDescription);
+			Console.WriteLine (note.description);
+			player.AddToInventory (note, 1);
+
+			string question = "Sword or Wand? \n 1)Sword \n 2)Wand";
+			int answer = getChoice(2, question);
+			bool pass = false;
+			while (pass != true){
+				if (answer == 1)
+				{
+					Console.WriteLine("it does not effect");
+					answer = getChoice(2, "maybe try a different weapon. \n 1)Sword \n 2)Wand");
+					}
+				else if (answer == 2)
+				{
+					Console.WriteLine("The webs have fallen \n");
+					pass = true;
+					}
+				}
+			
+		
+		Combat.StartCombat(player, enemy1);
+		GainEnemyItems(player, enemy1);
+
+		string question2 = "Jump or Climb? \n 1)Jump \n 2)Climb";
+		int answer2 = getChoice(2, question2);
+		bool pass2 = false;
+		while (pass2 != true){
+			if (answer == 1)
+			{
+				Console.WriteLine("jump story \n");
+					pass2 = true;
+			}
+			else if (answer == 2)
+			{
+				Console.WriteLine("climb story \n");
+				pass2 = true;
+			}
+		}
+
+		Combat.StartCombat(player, enemy2);
+		GainEnemyItems(player, enemy2);
+
+		Combat.StartCombat(player, boss);
+		GainEnemyItems(player, boss);
+	}
+
 
     private static void GainEnemyItems(Player player, Enemy enemy)
     {
@@ -157,11 +208,11 @@ namespace Sophmores_FinalProj
             goblin.AddToInventory(GoblinBlood, 2);
 
             Enemy giant = new Enemy("Giant", 35, 3, 10, 13);
-            Weapon BasicBow = new Weapon("BasicBow", "bow", "basic wooden bow", 20, 0);
+            Weapon shield = new Weapon("Shield", "shield", "shield that cuts enemy damage in half when equipped in battle", 20, 0);
             HealthPotion GiantMagic = new HealthPotion("Giant Magic", "magic potion used by the Giant to cure his injuries", true);
             Item key1 = new Item("Key I", "key", "this is the key colloected from first stage");
             giant.AddToInventory(key1, 1);
-            giant.AddToInventory(BasicBow, 1);
+            giant.AddToInventory(shield, 1);
             giant.AddToInventory(GiantMagic, 1);
 
             DoorStage(p1, skeleton, goblin, giant);
@@ -184,18 +235,33 @@ namespace Sophmores_FinalProj
           {
             Console.WriteLine("Okay, we are going into door {0}", response);
             Enemy GiantSpider = new Enemy("Giant Spider", 20, 10, 5, 7);
-            Enemy alligator = new Enemy("Alligator", 20, 10, 5, 7);
-            Enemy kraken = new Enemy("Kraken", 20, 10, 5, 7);
-            Item key2 = new Item("Key II", "key", "this is the key collected from second stage");
+			Weapon BasicBow = new Weapon("BasicBow", "bow", "basic wooden bow", 20, 0);
+						Poison spidervenom = new Poison ("Spider Venom", "poison", true);
+						GiantSpider.AddToInventory (BasicBow, 1);
+						GiantSpider.AddToInventory (spidervenom, 1);
+
+			Enemy alligator = new Enemy("Alligator", 20, 10, 5, 7);
+						Quiver firearrows = new Quiver ("Fire Arrows", "this quiver contains 8 fire arrows", 8);
+						HealthPotion aligatoreggs = new HealthPotion ("Alligator Eggs", "Restores health", false);
+						alligator.AddToInventory (firearrows, 1);
+						alligator.AddToInventory (aligatoreggs, 1);
+
+            
+			Enemy kraken = new Enemy("Kraken", 20, 10, 5, 7);
+						Weapon crossbow = new Weapon ("CrossBow", "bow,", "higher damage than basic bow, magical powers when combined with fire arrows", 20, 15);
+						HealthPotion Krakenb = new HealthPotion ("Kraken Blood", "magical blood that fully restores health", true);
+			Item key2 = new Item("Key II", "key", "this is the key collected from second stage");
             kraken.AddToInventory(key2, 1);
-            DoorStage(p1, GiantSpider, alligator, kraken);
+						kraken.AddToInventory (crossbow, 1);
+						kraken.AddToInventory (Krakenb, 1);
+			DoorStage2(p1, GiantSpider, alligator, kraken);
             p1.Stage2Complete = true;
             p1.currentStage = 2;
             continue;
           }
           else if (p1.Stage2Complete)
           {
-            response = UI.PromptInt("You have already completed this Door, choose another.");
+			Console.WriteLine("You have already completed this Door, choose another.");
             continue;
           }
         }
@@ -216,7 +282,7 @@ namespace Sophmores_FinalProj
           }
           else if (p1.Stage3Complete)
           {
-            response = UI.PromptInt("You have already completed this Door, choose another.");
+			Console.WriteLine("You have already completed this Door, choose another.");
             continue;
           }
         }
