@@ -320,17 +320,13 @@ namespace Sophmores_FinalProj
       Alligator.AddToInventory(FireArrows, 1);
       Alligator.AddToInventory(aligatoreggs, 1);
 
-      Enemy Kraken = new Enemy("Kraken", 20, 10, 5, 7);
-      Weapon Crossbow = new Weapon("CrossBow", "bow,",
-        "Higher damage than basic bow, gains magical powers when combined " + 
-        "with fire arrows", 20, 15);
-      Item key2 = new Item("Key II", "key",
-        "this is the key collected from second stage");
-      HealthPotion Krakenblood = new HealthPotion("Kraken Blood",
-        "magical blood that fully restores health", true);
-      Kraken.AddToInventory(Crossbow, 1);
-      Kraken.AddToInventory(Krakenblood, 1);
-      Kraken.AddToInventory(key2, 1);
+      Enemy kraken = new Enemy("Kraken", 20, 10, 5, 7);
+      Weapon crossbow = new Weapon("CrossBow", "bow,", "higher damage than basic bow, magical powers when combined with fire arrows", 20, 15);
+      Item key2 = new Item("Key II", "key", "this is the key collected from second stage");
+      HealthPotion Krakenb = new HealthPotion("Kraken Blood", "magical blood that fully restores health", true);
+      kraken.AddToInventory(crossbow, 1);
+      kraken.AddToInventory(Krakenb, 1);
+      kraken.AddToInventory(key2, 1);
 
       //STAGE 3 ENEMIES
       Enemy Wolf = new Enemy("Wolf", 20, 10, 5, 7);
@@ -488,21 +484,17 @@ namespace Sophmores_FinalProj
         else if (response == 5)
         {
           p1.DisplayInventoryContents();
-          Console.WriteLine("{0}) Close the inventory", p1.allItems.Count + 1);
-          int choice = getChoice(p1.allItems.Count + 1,"Please type the number corresponding to the Item you wish to see the description of.");
-          if(choice <= p1.allItems.Count)
+          string input = UI.PromptLine("Spell out the name of Item you wish to see description of. (case doesn't matter)");
+          foreach (KeyValuePair<Item, int> a in p1.inventory.contents)
           {
-              p1.Inspect(p1.allItems[choice-1]);
-              Console.WriteLine("Press any Key to Continue.");
-              Console.ReadKey();
-              continue;
-          }
-          else if (choice == p1.allItems.Count + 1)
-          {
-              Console.ForegroundColor = ConsoleColor.Yellow;
-              Console.WriteLine("\nYou have chosen to close the inventory.");
-              Console.ResetColor();
-              continue;
+            if (input.Trim().ToLower() == a.Key.name.Trim().ToLower())
+            {
+              p1.Inspect(a.Key);
+            }
+            else
+            {
+              input = UI.PromptLine("There is no item in your inventory that matches that input. Try again.");
+            }
           }
         }
 		else if (response == 4)
