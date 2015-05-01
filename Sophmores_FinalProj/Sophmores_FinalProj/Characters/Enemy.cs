@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sophmores_FinalProj
 {
   public class Enemy : Character
   {
     /// <summary>
-    /// Basic enemy Class, have Max and Min Damage values For random
-    /// Hit damage
+    /// Basic enemy Class, have Max and Min Damage values For random Hit damage 
     /// </summary>
 
     #region Public Properties
@@ -20,25 +15,27 @@ namespace Sophmores_FinalProj
     public int MaxDamage { get; set; }
 
     public int MinDamage { get; set; }
+    public string[] ArtFiles { get; private set; }
 
     #endregion Public Properties
 
     #region Public Constructors
 
     /// <summary>
-    /// Default Enemy with 'n' Affinity, Damage 5-10
+    /// Default Enemy with 'n' Affinity, Damage 5-10 
     /// </summary>
     public Enemy()
     {
-      Name = "Plauged Rat";
+      Name = "Plagued Rat";
       Affinity = "n";
       MinDamage = 5;
       MaxDamage = 10;
       BuffMultiplier = 1;
+      ArtFiles = SetArtFiles();
     }
 
     /// <summary>
-    /// Default Enemy with 'n' Affinity, Damage 5-10
+    /// Default Enemy with 'n' Affinity, Damage 5-10 
     /// </summary>
     public Enemy(string Name)
       : base(Name)
@@ -48,10 +45,11 @@ namespace Sophmores_FinalProj
       MinDamage = 5;
       MaxDamage = 10;
       BuffMultiplier = 1;
+      ArtFiles = SetArtFiles();
     }
 
     /// <summary>
-    /// Creates an enemy the player can do battle with Affinity set to "n"
+    /// Creates an enemy the player can do battle with Affinity set to "n" 
     /// </summary>
     /// <param name="Name"> Enemy's Name </param>
     /// <param name="Health"> Enemy's Health Value </param>
@@ -66,10 +64,11 @@ namespace Sophmores_FinalProj
       MaxDamage = maxDamage;
       BuffMultiplier = 1;
       Affinity = "n";
+      ArtFiles = SetArtFiles();
     }
 
     /// <summary>
-    /// Creates an enemy the player can do battle with
+    /// Creates an enemy the player can do battle with 
     /// </summary>
     /// <param name="Name"> Enemy's Name </param>
     /// <param name="Health"> Enemy's Health Value </param>
@@ -85,10 +84,11 @@ namespace Sophmores_FinalProj
       MaxDamage = maxDamage;
       BuffMultiplier = 1;
       Affinity = affinity;
+      ArtFiles = SetArtFiles();
     }
 
     /// <summary>
-    /// Creates an enemy the player can do battle with
+    /// Creates an enemy the player can do battle with 
     /// </summary>
     /// <param name="Name"> Enemy's Name </param>
     /// <param name="Health"> Enemy's Health Value </param>
@@ -105,8 +105,21 @@ namespace Sophmores_FinalProj
       MaxDamage = maxDamage;
       Affinity = affinity;
       BuffMultiplier = buffMultiplier;
+      ArtFiles = SetArtFiles();
     }
 
     #endregion Public Constructors
+
+    #region Private Methods
+    private string[] SetArtFiles()
+    {
+      ArtFiles = new string[3];
+      for (int i = 0; i < ArtFiles.Length; i++)
+      {
+        ArtFiles[i] = (this.Name + i + ".txt");
+      }
+      return ArtFiles;
+    }
+    #endregion Private Methods
   }
 }
