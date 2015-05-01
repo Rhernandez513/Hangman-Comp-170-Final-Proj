@@ -323,7 +323,7 @@ namespace Sophmores_FinalProj
       Enemy kraken = new Enemy("Kraken", 20, 10, 5, 7);
       Weapon crossbow = new Weapon("CrossBow", "bow,", "higher damage than basic bow, magical powers when combined with fire arrows", 20, 15);
       Item key2 = new Item("Key II", "key", "this is the key collected from second stage");
-      HealthPotion Krakenb = new HealthPotion("Kraken Blood", "magical blood that fully restores health", true);
+      Poison Krakenb = new Poison("Kraken Blood", "The blood of the Kraken, useful as an extremely\npotent neurotoxin that debilitates enemies.", true);
       kraken.AddToInventory(crossbow, 1);
       kraken.AddToInventory(Krakenb, 1);
       kraken.AddToInventory(key2, 1);
