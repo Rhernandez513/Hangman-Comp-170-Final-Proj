@@ -215,16 +215,16 @@ namespace Sophmores_FinalProj
     /// <returns></returns>
     private static int getChoice(int numberOfChoices, string choices, bool door = false)
     {
+      string[] options = new string[] { "Door 1", "Door 2", "Door 3",
+                                        "Large Door", "Open Inventory" };
       Console.ForegroundColor = ConsoleColor.Cyan;
       if (door == false)
       {
         Console.WriteLine("\n \n" + choices);
       }
       else if (door == true)
-      {
-        string[] options = new string[] { "Door 1", "Door 2", "Door 3",
-                                          "Large Door", "OpenInventory" };
-        Console.WriteLine("\n \nWhich door would you like to enter? ");
+      {        
+        Console.WriteLine("\n \nWhich door would you like to enter?\n ");
         for (int i = 0; i < options.Length; i++)
         {
           if (i == 3)
@@ -252,11 +252,19 @@ namespace Sophmores_FinalProj
         }
         else if (door == true)
         {
-          Console.Write("Which door would you like to enter? \n 1) Door 1 \n 2) Door 2 \n 3) Door 3");
-		  Console.ForegroundColor = ConsoleColor.Magenta;
-		  Console.Write("\n 4) Large Door");
-          Console.ForegroundColor = ConsoleColor.Yellow;
-          Console.WriteLine("\n 5) Open Inventory");
+            Console.WriteLine("\n \nWhich door would you like to enter?\n ");
+            for (int i = 0; i < options.Length; i++)
+            {
+                if (i == 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
+                else if (i == 4)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                Console.WriteLine((i + 1) + ") " + options[i]);
+            }
         }
         Console.ResetColor();
         choice = UI.PromptInt("\nPlease enter a valid choice number: ");
@@ -486,14 +494,16 @@ namespace Sophmores_FinalProj
           }
         }
         else if (response == 5)
-        {
+        {          
           p1.DisplayInventoryContents();
+          Console.ForegroundColor = ConsoleColor.Green;
           Console.WriteLine("{0}) Close the inventory", p1.allItems.Count + 1);
-          int choice = getChoice(p1.allItems.Count + 1,"Please type the number corresponding to the Item you wish to see the description of.");
+          Console.ResetColor();
+          int choice = getChoice(p1.allItems.Count + 1,"Please type the number corresponding to the Item \nyou wish to see the description of.");
           if(choice <= p1.allItems.Count)
           {
               p1.Inspect(p1.allItems[choice-1]);
-              Console.WriteLine("Press any Key to Continue.");
+              Console.WriteLine("\nPress any Key to Continue.");
               Console.ReadKey();
               continue;
           }
@@ -510,10 +520,12 @@ namespace Sophmores_FinalProj
 			if (p1.currentStage != 3) 
 			{
 				Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.ResetColor();
-            Console.WriteLine("\nThis door is locked, it smells like plants..."+
+                Console.ResetColor();
+                Console.WriteLine("\nThis door is locked, it smells like plants..."+
                                "\nThis door also seems to have 3 keyholes... " +
                                "very strange...");
+                Console.WriteLine("Press any Key to Continue.");
+                Console.ReadKey();
 				continue;
 			} 
 			else if (p1.currentStage == 3) 
@@ -540,28 +552,7 @@ namespace Sophmores_FinalProj
                         "and it is now sealed, choose another.");
       Console.ResetColor();
     }
-    /// <summary>
-    /// Displays inventory to the player and allows him to inspect items
-    /// </summary>
-    /// <param name="player">Main Player</param>
-    private static void InspectPrompt(Player player)
-    {
-      player.DisplayInventoryContents();
-      string input = UI.PromptLine("Spell out the name of Item you wish " +
-                                   "to see description of.");
-      foreach (KeyValuePair<Item, int> a in player.inventory.contents)
-      {
-        if (input.Trim().ToLower() == a.Key.name.Trim().ToLower())
-        {
-          player.Inspect(a.Key);
-        }
-        else
-        {
-          input = UI.PromptLine("There is no item in your inventory that " +
-                                "matches that input. Try again.");
-        }
-      }
-    }
+   
     /// <summary>
     /// Provides framework for one-time tutorial
     /// </summary>

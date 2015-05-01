@@ -242,7 +242,7 @@ namespace Sophmores_FinalProj
     {
       var inventoryList = new List<Item>(inventory.contents.Keys);
       inventoryList.Sort();
-      allItems = inventoryList;
+      allItems = inventoryList;      
       DisplayItems(inventoryList);
     }
 
@@ -276,7 +276,7 @@ namespace Sophmores_FinalProj
     /// <param name="item"> Item to Describe </param>
     public void Inspect(Item item)
     {
-      Console.WriteLine("Name: {0}", item.name);
+      Console.WriteLine("\nName: {0}", item.name);
       Console.WriteLine("Type: {0}", item.type);
       Console.WriteLine("Description: {0}", item.description);
       if (item is Weapon)
@@ -324,8 +324,8 @@ namespace Sophmores_FinalProj
 
     private void DisplayItems(List<Item> itemList)
     {
-      int i = 1;
-      Console.WriteLine("All Items:");
+      int i = 1;      
+      Console.WriteLine("\nAll Items:");
       foreach (Item s in itemList)
       {
         Console.WriteLine(i + ") " + s.name + ", Quantity: " + inventory.contents[s]);
