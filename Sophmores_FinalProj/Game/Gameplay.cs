@@ -222,7 +222,7 @@ namespace Sophmores_FinalProj
         Console.Write("\n \nWhich door would you like to enter? " +
                       "\n 1) Door 1 \n 2) Door 2 \n 3) Door 3");
 		Console.ForegroundColor = ConsoleColor.Magenta;
-		Console.WriteLine("\n 4) Large Door");
+		Console.Write("\n 4) Large Door");
 		Console.ForegroundColor = ConsoleColor.Yellow;
 		Console.WriteLine("\n 5) Open Inventory");
 	  
@@ -239,13 +239,13 @@ namespace Sophmores_FinalProj
         {
           Console.Write("Which door would you like to enter? \n 1) Door 1 \n 2) Door 2 \n 3) Door 3");
 		  Console.ForegroundColor = ConsoleColor.Magenta;
-		  Console.WriteLine("\n 4) Large Door");
+		  Console.Write("\n 4) Large Door");
           Console.ForegroundColor = ConsoleColor.Yellow;
           Console.WriteLine("\n 5) Open Inventory");
 		  
         }
         Console.ResetColor();
-        choice = UI.PromptInt("Please enter a valid choice number: ");
+        choice = UI.PromptInt("\nPlease enter a valid choice number: ");
       }
       return choice;
     }
@@ -468,17 +468,21 @@ namespace Sophmores_FinalProj
         else if (response == 5)
         {
           p1.DisplayInventoryContents();
-          string input = UI.PromptLine("Spell out the name of Item you wish to see description of. (case doesn't matter)");
-          foreach (KeyValuePair<Item, int> a in p1.inventory.contents)
+          Console.WriteLine("{0}) Close the inventory", p1.allItems.Count + 1);
+          int choice = getChoice(p1.allItems.Count + 1,"Please type the number corresponding to the Item you wish to see the description of.");
+          if(choice <= p1.allItems.Count)
           {
-            if (input.Trim().ToLower() == a.Key.name.Trim().ToLower())
-            {
-              p1.Inspect(a.Key);
-            }
-            else
-            {
-              input = UI.PromptLine("There is no item in your inventory that matches that input. Try again.");
-            }
+              p1.Inspect(p1.allItems[choice-1]);
+              Console.WriteLine("Press any Key to Continue.");
+              Console.ReadKey();
+              continue;
+          }
+          else if (choice == p1.allItems.Count + 1)
+          {
+              Console.ForegroundColor = ConsoleColor.Yellow;
+              Console.WriteLine("\nYou have chosen to close the inventory.");
+              Console.ResetColor();
+              continue;
           }
         }
 		else if (response == 4)

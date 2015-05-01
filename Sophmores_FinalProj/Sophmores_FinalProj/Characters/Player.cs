@@ -48,7 +48,10 @@ namespace Sophmores_FinalProj
     /// and damage
     /// </summary>
     public int TotalDamage { get; private set; }
-
+    /// <summary>
+    /// list containing all current Item's in inventory. 
+    /// </summary>
+    public List<Item> allItems { get; private set; }
     /// <summary>
     /// true after player completes tutorial 
     /// </summary>
@@ -213,6 +216,7 @@ namespace Sophmores_FinalProj
     {
       var inventoryList = new List<Item>(inventory.contents.Keys);
       inventoryList.Sort();
+      allItems = inventoryList;
       DisplayItems(inventoryList);
     }
 
@@ -294,11 +298,11 @@ namespace Sophmores_FinalProj
 
     private void DisplayItems(List<Item> itemList)
     {
-      int i = 0;
+      int i = 1;
       Console.WriteLine("All Items:");
       foreach (Item s in itemList)
       {
-        Console.WriteLine(i + ") " + s.name + " " + inventory.contents[s]);
+        Console.WriteLine(i + ") " + s.name + ", Quantity: " + inventory.contents[s]);
         i++;
       }
     }
