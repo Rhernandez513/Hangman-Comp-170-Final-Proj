@@ -503,7 +503,8 @@ namespace Sophmores_FinalProj
           if(choice <= p1.allItems.Count)
           {
               p1.Inspect(p1.allItems[choice-1]);
-              TextUtil.PressAnyKeyBufferClear();    
+              Console.WriteLine("\nPress any Key to Continue.");
+              Console.ReadKey();
               continue;
           }
           else if (choice == p1.allItems.Count + 1)
@@ -523,7 +524,8 @@ namespace Sophmores_FinalProj
                 Console.WriteLine("\nThis door is locked, it smells like plants..."+
                                "\nThis door also seems to have 3 keyholes... " +
                                "very strange...");
-                TextUtil.PressAnyKeyBufferClear();                             
+                Console.WriteLine("Press any Key to Continue.");
+                Console.ReadKey();
 				continue;
 			} 
 			else if (p1.currentStage == 3) 
