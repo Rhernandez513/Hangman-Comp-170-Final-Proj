@@ -19,12 +19,6 @@ namespace Sophmores_FinalProj
         if (!player.isAlive()) { player.CurrentHP = 10; }
         return;
       }
-
-	  Console.ForegroundColor = ConsoleColor.DarkYellow;
-      TextUtil.PrintTextFile("foreshadownote.txt");
-      Console.ResetColor();
-      TextUtil.PressAnyKeyBufferClear();
-
       Combat.StartCombat(player, enemy2);
       GainEnemyItems(player, enemy2);
       if (!player.isAlive() || Combat.run)
@@ -92,7 +86,6 @@ namespace Sophmores_FinalProj
           pass2 = true;
         }
       }
-		player.Stage = false;
     }
 
     private static void GainEnemyItems(Player player, Enemy enemy)
@@ -178,7 +171,10 @@ namespace Sophmores_FinalProj
         return;
       }
       Console.ForegroundColor = ConsoleColor.Yellow;
-      player.currentStage = 3;
+      Console.WriteLine("\nAfter defeating the {0}, {1} leaves the room. " +
+                        "You hear \n the door lock behind you as you step " +
+                        "into the lobby.", boss.Name, player.Name);
+      Console.ResetColor();
       player.Stage = false;
     }
 	
@@ -219,26 +215,26 @@ namespace Sophmores_FinalProj
     /// <returns></returns>
     private static int getChoice(int numberOfChoices, string choices, bool door = false)
     {
+      string[] options = new string[] { "Door 1", "Door 2", "Door 3",
+                                        "Large Door", "Open Inventory" };
       Console.ForegroundColor = ConsoleColor.Cyan;
       if (door == false)
       {
         Console.WriteLine("\n \n" + choices);
       }
       else if (door == true)
-      {
-        string[] options = new string[] { "Door 1", "Door 2", "Door 3",
-                                          "Large Door", "OpenInventory" };
-        Console.WriteLine("\n \nWhich door would you like to enter? ");
+      {        
+        Console.WriteLine("\n \nWhich door would you like to enter?\n ");
         for (int i = 0; i < options.Length; i++)
         {
           if (i == 3)
           {
-            Console.ForegroundColor = ConsoleColor.Magenta;
+		Console.ForegroundColor = ConsoleColor.Magenta;
           }
           else if (i == 4)
           {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-          }
+		Console.ForegroundColor = ConsoleColor.Yellow;
+      }
           Console.WriteLine((i + 1) + ") " + options[i]);
         }
       }
@@ -256,14 +252,22 @@ namespace Sophmores_FinalProj
         }
         else if (door == true)
         {
-          Console.Write("Which door would you like to enter? \n 1) Door 1 \n 2) Door 2 \n 3) Door 3");
-          Console.ForegroundColor = ConsoleColor.Magenta;
-          Console.WriteLine("\n 4) Large Door");
-          Console.ForegroundColor = ConsoleColor.Yellow;
-          Console.WriteLine("\n 5) Open Inventory");
+            Console.WriteLine("\n \nWhich door would you like to enter?\n ");
+            for (int i = 0; i < options.Length; i++)
+            {
+                if (i == 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
+                else if (i == 4)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                Console.WriteLine((i + 1) + ") " + options[i]);
+            }
         }
         Console.ResetColor();
-        choice = UI.PromptInt("Please enter a valid choice number: ");
+        choice = UI.PromptInt("\nPlease enter a valid choice number: ");
       }
       return choice;
     }
@@ -380,11 +384,11 @@ namespace Sophmores_FinalProj
       AllEnemies.Add(Orc);            // 9
       AllEnemies.Add(Dragon);         // 10
       AllEnemies.Add(Ghost);          // 11
-
+      
       return AllEnemies.ToArray();
-    }
+      }
     private static void Main(string[] args)
-    {
+      {
       ShowGameTitleScreen();
       Enemy[] Enemies = CreateAllEnemies();
       Player p1 = GameIntro.Start(new Player("", 20));
@@ -490,29 +494,47 @@ namespace Sophmores_FinalProj
           }
         }
         else if (response == 5)
-        {
-          InspectPrompt(p1);
-        }
-        else if (response == 4)
-        {
-          if (p1.currentStage != 3)
+        {          
+          p1.DisplayInventoryContents();
+          Console.ForegroundColor = ConsoleColor.Green;
+          Console.WriteLine("{0}) Close the inventory", p1.allItems.Count + 1);
+          Console.ResetColor();
+          int choice = getChoice(p1.allItems.Count + 1,"Please type the number corresponding to the Item \nyou wish to see the description of.");
+          if(choice <= p1.allItems.Count)
           {
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.ResetColor();
-            Console.WriteLine("\nThis door is locked, it smells like plants..."+
+              p1.Inspect(p1.allItems[choice-1]);
+              TextUtil.PressAnyKeyBufferClear();
+              continue;
+          }
+          else if (choice == p1.allItems.Count + 1)
+          {
+              Console.ForegroundColor = ConsoleColor.Yellow;
+              Console.WriteLine("\nYou have chosen to close the inventory.");
+              Console.ResetColor();
+              continue;
+          }
+        }
+		else if (response == 4)
+        {
+			if (p1.currentStage != 3) 
+			{
+				Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.ResetColor();
+                Console.WriteLine("\nThis door is locked, it smells like plants..."+
                                "\nThis door also seems to have 3 keyholes... " +
                                "very strange...");
-            continue;
-          }
-          else if (p1.currentStage == 3)
-          {
-            Console.ForegroundColor = ConsoleColor.Magenta;
+                TextUtil.PressAnyKeyBufferClear();
+				continue;
+			} 
+			else if (p1.currentStage == 3) 
+			{
+				Console.ForegroundColor = ConsoleColor.Magenta;
 				    Console.WriteLine("You have found all three keys and the door " + 
                               "now opens! We are going into the final door!");
             DoorStage4(p1, Enemies[11], Enemies[12]);
-            Console.ResetColor();
-            responseIsGood = true;
-            break;
+				Console.ResetColor();
+				responseIsGood = true;
+				break;
 
           }
         }
@@ -528,33 +550,7 @@ namespace Sophmores_FinalProj
                         "and it is now sealed, choose another.");
       Console.ResetColor();
     }
-    /// <summary>
-    /// Displays inventory to the player and allows him to inspect items
-    /// </summary>
-    /// <param name="player">Main Player</param>
-    private static void InspectPrompt(Player player)
-    {
-      player.DisplayInventoryContents();
-      string input = UI.PromptLine("Spell out the name of Item you wish " +
-                                   "to see description of.");
-      foreach (KeyValuePair<Item, int> a in player.inventory.contents)
-      {
-        if (input.Trim().ToLower() == a.Key.name.Trim().ToLower())
-        {
-          player.Inspect(a.Key);
-        }
-        else
-        {
-          input = UI.PromptLine("There is no item in your inventory that " +
-                                "matches that input. Try again.");
-        }
-
-      }
-	  TextUtil.PressAnyKeyBufferClear();
-      Console.ForegroundColor = ConsoleColor.DarkRed;
-	  TextUtil.PrintTextFile("GameOver.txt");
-	  Console.WriteLine("Congradulations on beating the Game!!!");
-    }
+   
     /// <summary>
     /// Provides framework for one-time tutorial
     /// </summary>
@@ -577,13 +573,13 @@ namespace Sophmores_FinalProj
       if (forward == 1)
       {
         Console.WriteLine("Good to hear, we are now entering the cave.");
-      }
+			}
       else
       {
         Console.WriteLine("You're coming anyways... were walking into the" +
                           " tunnel.");
+        }
       }
-    }
     /// <summary>
     /// Shows the Intro Title Screen
     /// </summary>
@@ -602,7 +598,7 @@ namespace Sophmores_FinalProj
 
     private static bool OpenedDoors(int response, Player player)
     {
-      if (response < 1 || response > 4) { return false; }
+      if (response < 1 || response > 3) { return false; }
       else
       {
         if (player.DoorsOpened.Count == 0)
